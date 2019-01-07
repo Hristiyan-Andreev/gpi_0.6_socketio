@@ -1,0 +1,11 @@
+.but-on { 
+border:1px outset;
+color:#369;
+background:#efefef; 
+}
+
+.but-off {
+border:1px outset;
+color:#369;
+background:#f9d543; 
+}
