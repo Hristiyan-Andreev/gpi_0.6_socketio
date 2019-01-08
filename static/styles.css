@@ -1,11 +1,7 @@
-.but-on { 
-border:1px outset;
-color:#369;
-background:#efefef; 
-}
-
-.but-off {
-border:1px outset;
-color:#369;
-background:#f9d543; 
-}
+td, th {
+    border: 1px solid #dddddd;
+    border-left: 1px solid rgb(66, 84, 122);
+    text-align: left;
+    padding: 8px;
+  }
+  

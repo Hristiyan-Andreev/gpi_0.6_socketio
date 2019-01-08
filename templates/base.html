@@ -3,6 +3,7 @@
 	
 	<!-- Latest compiled and minified CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.2.1/lux/bootstrap.min.css" rel="stylesheet" integrity="sha384-kW2H6mf/72/MKlmwB//Zcwg0ckiegojPx/fio14/rpoYw2LMhULTn5YhS1QyrQfx" crossorigin="anonymous">
+    <link href="static/styles.css" rel="stylesheet"> 
 
     <!-- Latest compiled and minified JavaScript -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -34,12 +35,18 @@
 			var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
 			console.log('PERKELE');
 			socket.on('connect', function() {
-				console.log("Connected Nigga")
+				console.log("WebSocket connected")
 			});
 
 			socket.on('my_logging', function(msg) {
 				console.log(msg)
-				$('#log').append('<br>' + $('<div/>').text(msg.data).html());
+				let message = msg.data;
+				let date = new Date().toUTCString() + '' + new Date().toLocaleTimeString();
+				console.log(date);
+				//let row = '<tr><td>' + date + '</td><td>' + message + '</td></tr>';
+				let row = $('<tr/>').append($('<td/>').text(date), 
+				$('<td/>').text(message));
+				$('#log').prepend(row);
 			});
 		
 		});

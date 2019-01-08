@@ -84,8 +84,8 @@ def index():
 
 @socketio.on('connect', namespace='')
 def test_connect():
-    print("Nigga is connected")
-    emit('my_logging', {'data': 'Connected'})
+    print("Websocket connected")
+    emit('my_logging', {'data': 'WebSocket Connected'})
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0')     

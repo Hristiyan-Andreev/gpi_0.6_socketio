@@ -1,7 +1,8 @@
 import time
-from threading import Timer
+from threading import Timer, Thread
 import liveapi
 import config as cf
+import queue as qu
 
 # Time measurement class
 class TimeMeasure():
@@ -58,8 +59,33 @@ class GpiStream:
 
     def lock_channel(self, lock_interval):
         self.channel_locked = True
+        # Create a timer thread which triggers the unlock_channel function after
+        # the expiration of 'lock_interval' seconds
         unlock_timer = Timer(lock_interval, self.unlock_channnel)
         unlock_timer.start()
 
     def unlock_channnel(self):
         self.channel_locked = False
+
+
+class Logger(Thread):
+    def __init__(self, socketio):
+        Thread.__init__(self)
+        self.messages = qu.Queue(10)
+        self.socket = socketio
+
+    def add_message(self, message):
+        if not self.messages.full():
+            self.messages.put(message)
+        #TODO: Notify and wake up
+        # the logger function that new message is added
+
+    def emit_message(self):
+        if not self.messages.empty():
+            msg = self.messages.get()
+            self.socket.emit('my_logging', {'data': msg})
+
+    def logger(self):
+        #TODO: Make it sleep untill woken up by add_message
+        #TODO: After is awake - emit messages till messages are empty
+        pass
