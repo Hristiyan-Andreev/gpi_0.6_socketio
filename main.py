@@ -43,7 +43,7 @@ for GPI in list(cf.gpi2stream):
 def start_stop_avail(gpi):
     edge = GPIO.input(gpi)
     stream = gpi_stream_dict[gpi]           # Make a copy of the dict object, for better perfomance
-    print("1. {} Event detcted".format(edge))
+    
     msg = "1. {} Event detcted".format(edge)
     socketio.emit('my_logging', {'data': msg})
     print("2. Stream is in cue: {}".format(stream.in_cue))

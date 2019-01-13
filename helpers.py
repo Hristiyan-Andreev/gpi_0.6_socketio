@@ -97,7 +97,7 @@ class Logger(Thread):
             logging.debug('Started waiting for message')
             #TODO: Make it sleep untill woken up by add_message
             new_message_recieved = self.new_message.wait()
-            
+
             logging.debug('New messages available')
             #TODO: After is awake - emit messages till messages are empty
             while not self.messages.empty():
@@ -105,4 +105,8 @@ class Logger(Thread):
             
             logging.debug('Clearing the new_message flag')
             self.new_message.clear()
+        
+    def run(self):
+        self.logger()
+
         
