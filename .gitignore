@@ -3,3 +3,4 @@ static/.webassets-cache/230c2b05ff18323c515e21cf9fb81093
 static/.webassets-cache/9db6a7b996bcd7e801a856245be5f1d2
 static/gen/main.js
 Flask-SocketIO/
+.vscode/settings.json

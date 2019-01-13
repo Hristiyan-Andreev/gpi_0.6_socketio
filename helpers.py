@@ -1,9 +1,13 @@
 import time
 from threading import Timer, Thread
+import logging
 import threading as th
 import liveapi
 import config as cf
 import queue as qu
+
+logging.basicConfig(level=logging.DEBUG, \
+                    format='(%(threadName)-9s) %(message)s',)
 
 # Time measurement class
 class TimeMeasure():
@@ -74,19 +78,31 @@ class Logger(Thread):
         Thread.__init__(self)
         self.messages = qu.Queue(10)
         self.socket = socketio
+        self.new_message = th.Event()
 
-    def add_message(self, message):
+    def log_message(self, message):
         if not self.messages.full():
             self.messages.put(message)
-        #TODO: Notify and wake up
-        # the logger function that new message is added
+        logging.debug('Message added, notifying logger')
+        #TODO: Notify and wake up the logger function that new message is added
+        self.new_message.set()
 
     def emit_message(self):
-        if not self.messages.empty():
             msg = self.messages.get()
             self.socket.emit('my_logging', {'data': msg})
 
     def logger(self):
-        #TODO: Make it sleep untill woken up by add_message
-        #TODO: After is awake - emit messages till messages are empty
-        pass
+        logging.debug('Logger started')
+        while not self.new_message.is_set():
+            logging.debug('Started waiting for message')
+            #TODO: Make it sleep untill woken up by add_message
+            new_message_recieved = self.new_message.wait()
+            
+            logging.debug('New messages available')
+            #TODO: After is awake - emit messages till messages are empty
+            while not self.messages.empty():
+                self.emit_message()
+            
+            logging.debug('Clearing the new_message flag')
+            self.new_message.clear()
+        
