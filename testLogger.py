@@ -23,7 +23,7 @@ assets.register('main_js', jsfiles)
 
 # Test the logger
 logger = Logger(socketio)
-logger.start()
+#logger.start()
 def test_message():
     while(1):
         logger.log_message('Yo mama so fat')

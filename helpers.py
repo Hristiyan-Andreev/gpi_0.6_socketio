@@ -79,12 +79,14 @@ class Logger(Thread):
         self.messages = qu.Queue(10)
         self.socket = socketio
         self.new_message = th.Event()
+        self.setDaemon(True)
+        self.start()
 
     def log_message(self, message):
         if not self.messages.full():
             self.messages.put(message)
         logging.debug('Message added, notifying logger')
-        #TODO: Notify and wake up the logger function that new message is added
+        # Notify and wake up the logger function that new message is added
         self.new_message.set()
 
     def emit_message(self):
@@ -95,11 +97,11 @@ class Logger(Thread):
         logging.debug('Logger started')
         while not self.new_message.is_set():
             logging.debug('Started waiting for message')
-            #TODO: Make it sleep untill woken up by add_message
+            # Wait until new message is available
             new_message_recieved = self.new_message.wait()
 
             logging.debug('New messages available')
-            #TODO: After is awake - emit messages till messages are empty
+            # After is awake - emit messages till messages queue is empty
             while not self.messages.empty():
                 self.emit_message()
             
