@@ -27,7 +27,7 @@ logger = Logger(socketio)
 def test_message():
     while(1):
         logger.log_message('Yo mama so fat')
-        time.sleep(5)
+        time.sleep(20)
 
 t = th.Thread(target=test_message)
 t.start()
