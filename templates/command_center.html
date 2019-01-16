@@ -1,19 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="container">
+    {% include 'includes/_gpi_form.html' %}
 
-<div id='logger'>
-    <h2>Messages</h2>
-    <table class="table table-bordered" id='log'>
-        <thead>
-            <tr class="table-primary">
-                <th scope = 'col'>Time</th>
-                <th scope = 'col'>Message</th>
-            </tr>
-        </thead>
-        <tbody>
-            
-        </tbody>
-    </table>        
 </div>
+<div class = 'jumbotron container' id ='logger'>
+    <h2>Messages</h2>
+    {% include 'includes/_msg_table.html' %}
+</div>   
 
 {% endblock %}
