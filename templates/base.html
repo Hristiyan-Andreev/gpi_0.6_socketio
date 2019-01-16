@@ -31,7 +31,7 @@
 		$(document).ready(function() {
 			var namespace = '';
 			var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
-			console.log('PERKELE');
+
 			socket.on('connect', function() {
 				console.log("WebSocket connected")
 			});
@@ -46,6 +46,24 @@
 				$('<td/>').text(message));
 				$('#log').prepend(row);
 			});
+			
+			function get_gpi() {
+				let url = location.protocol + '//' + document.domain + ':' + location.port + '/gpis';
+				
+				$.ajax({
+					type: "GET",
+					url: url,
+					success: function (data) {
+						console.log(data)  // display the returned data in the console.
+						for (i=0; i<data.length; i++){
+							let row = $('<tr/>').append($('<td/>').text(data[i].gpi), 
+							$('<td/>').text(data[i].stream_id));
+							$('#gpi_table').prepend(row);
+						}
+					}
+				});				
+			};
+			get_gpi();
 		
 		});
 

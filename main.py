@@ -1,7 +1,7 @@
 import sys
 import time
 import RPi.GPIO as GPIO
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from flask_socketio import SocketIO, emit, join_room, leave_room, \
     close_room, rooms, disconnect
 from flask_assets import Bundle, Environment
@@ -26,7 +26,7 @@ assets.register('main_js', jsfiles)
 # Make a new dict with GPIs as Keys and GpiStreams as values
 gpi_stream_dict = {}
 for gpi, id in cf.gpi2stream.items():
-    gpi_stream_dict[gpi] = GpiStream(id)
+    gpi_stream_dict[gpi] = GpiStream(id, gpi)
 
 
 # Setup GPIO inputs/outputs
@@ -81,6 +81,13 @@ for GPI in list(cf.gpi2stream):
 @app.route('/')
 def index():
     return render_template('command_center.html', async_mode=socketio.async_mode)
+
+@app.route('/gpis')
+def get_gpis():
+    inputs = []
+    for gpi, input in gpi_stream_dict.items():
+        inputs.append(gpi_stream_dict[gpi].__dict__)
+    return jsonify(inputs)
 
 @socketio.on('connect', namespace='')
 def test_connect():
