@@ -25,8 +25,13 @@ assets.register('main_js', jsfiles)
 
 # Make a new dict with GPIs as Keys and GpiStreams as values
 gpi_stream_dict = {}
-for gpi, id in cf.gpi2stream.items():
-    gpi_stream_dict[gpi] = GpiStream(id, gpi)
+def create_gpi_table( gpi_stream_dict ):
+    num = 1
+    for gpi, id in cf.gpi2stream.items():
+        gpi_stream_dict[gpi] = GpiStream(num, id, gpi)
+        num += 1
+create_gpi_table(gpi_stream_dict);
+
 
 
 # Setup GPIO inputs/outputs
@@ -79,6 +84,7 @@ for GPI in list(cf.gpi2stream):
     GPIO.add_event_detect( GPI, GPIO.BOTH, callback = start_stop_avail, bouncetime = 200)
 
 @app.route('/')
+@app.route('/command_center')
 def index():
     return render_template('command_center.html', async_mode=socketio.async_mode)
 

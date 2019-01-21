@@ -30,12 +30,14 @@ class TimeMeasure():
 
 # GPI to Stream class with more information
 class GpiStream:
+    num = 0
     gpi = 0
     stream_id = '0'
     in_cue = False
     channel_locked = False
     
-    def __init__(self, id, gpi):
+    def __init__(self, num, id, gpi):
+        self.num = num
         self.gpi = gpi
         self.stream_id = id
         self.in_cue = False

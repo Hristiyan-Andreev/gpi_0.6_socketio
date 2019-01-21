@@ -12,11 +12,11 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
 	
-	<!---
+	
 		{% assets "main_js" %}
 		<script type = "text/javascript" src="{{ ASSET_URL }}"></script>
 		{% endassets %}
-	-->
+	
 
     <title>TEMA Elemental API</title>
 	</head>
@@ -49,27 +49,8 @@
 				$('#log').prepend(row);
 			});
 
-			function get_ajax(endpoint) {
-				let url = location.protocol + '//' + document.domain + ':' + location.port + endpoint;
-				
-				return $.ajax({
-					type: "GET",
-					url: url,
-				});
-			};
-
-			function show_gpi(){
-				get_ajax('/gpis').done( function(data) {
-					console.log(data);
-					for (i=0; i<data.length; i++){
-						let row = $('<tr/>').append($('<td/>').text(data[i].gpi), 
-							$('<td/>').text(data[i].stream_id));
-						$('#gpi_table').prepend(row);
-					}
-				});
-			}
 			show_gpi();
-
+			get_gpis();
 		});
 
 	</script>
