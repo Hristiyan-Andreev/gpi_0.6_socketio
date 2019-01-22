@@ -19,7 +19,7 @@ app = Flask(__name__)
 app.config.from_object(cf.FlaskConfig)
 socketio = SocketIO(app)
     # Include JS files
-jsfiles = Bundle('form_ajax.js', output='gen/main.js')
+jsfiles = Bundle('gpi_helpers.js', 'form_ajax.js', output='gen/main.js')
 assets = Environment(app)
 assets.register('main_js', jsfiles)
 
