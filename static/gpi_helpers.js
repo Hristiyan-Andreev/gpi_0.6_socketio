@@ -9,7 +9,8 @@ class GPIStream{
     }
 
     static from_obj(obj){
-        return new GPIStream(obj.num, obj.gpi, obj.stream, obj.in_cue, obj.ch_locked);
+        // console.log(obj);
+        return new GPIStream(obj.num, obj.gpi, obj.stream_id, obj.in_cue, obj.channel_locked);
 	}
 
 	static from_json(json){
@@ -20,18 +21,16 @@ class GPIStream{
 }
 
 class GPIStreamList{
-    constructor(data){		
+    constructor(data){
+        // console.log(data);		
 		this.gpi_stream_list = new Array(data.length);
         for (i=0; i<data.length; i++){
             this.gpi_stream_list[i] = GPIStream.from_obj(data[i]);
-        }
+        }        
+    }
+    
+    add_to_storage(){
+        localStorage.setItem('stream_list', JSON.stringify(this.gpi_stream_list));        
     }
 }
 
-class GPIControl {
-
-}
-
-class GPIUIHandlers {
-    
-}
