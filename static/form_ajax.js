@@ -40,9 +40,9 @@ function render_streams(){
 	console.log(streams);	
 	for (i=0; i<streams.length; i++){
 		let row = $('<tr/>').append(
-			$('<td/>').text(streams[i].num),
-			$('<td/>').text(streams[i].gpi),
-			$('<td/>').text(streams[i].stream),
+			$('<td/>').attr('id', 'gpi_num').text(streams[i].num),
+			$('<td/>').attr('id', 'gpi_gpi').text(streams[i].gpi),
+			$('<td/>').attr('id', 'gpi_stream').text(streams[i].stream),
 			$('<td/>').html('<a href="#" class="btn btn-warning btn-sm edit">Edit</a>')
 		);
 		$('#gpi_table').append(row);
@@ -58,7 +58,17 @@ function fetch_streams(){
 }
 
 function change_stream(stream_row){
-	console.log(stream_row.parentElement.parentElement);
+	console.log(stream_row.parentElement.parentElement.querySelector("#gpi_num").innerText);
+	let gpi_row = stream_row.parentElement.parentElement;
+	let gpi_num = gpi_row.querySelector("#gpi_num").innerText;
+	let gpi_gpi = gpi_row.querySelector("#gpi_gpi").innerText;
+	let gpi_stream = gpi_row.querySelector("#gpi_stream").innerText;
+
+	let new_col_gpi = $('<td/>').attr('id', 'gpi_gpi').html('<input type="text" name="gpi_gpi" placeholder = ' +
+		gpi_gpi + ' >');
+
+	gpi_row.querySelector('#gpi_gpi').innerHTML='<input type="text" name="gpi_gpi" placeholder = ' +
+	gpi_gpi + ' >';
 }
 
 $(document).ready(function() {
