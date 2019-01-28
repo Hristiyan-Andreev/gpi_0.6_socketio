@@ -72,13 +72,16 @@ function change_stream(stream_row){
 	.append(
 		'' + gpi_num + ' ',
 		$('<div/>').attr({class: 'form-group'}).append(
-			'<input type="text" class = "form-control" name="gpi_gpi" placeholder = GPI_' + gpi_gpi + ' >',
+			'<input type="text" class = "form-control" name="gpi_gpi" placeholder = GPI_' +
+			 gpi_gpi + ' >',
 		),
 		$('<div/>').attr({class: 'form-group'}).append(
-			'<input type="text" class = "form-control" name="gpi_stream" placeholder = StreamID_' + gpi_stream + ' >'
+			'<input type="text" class = "form-control" name="gpi_stream" placeholder = StreamID_' +
+			 gpi_stream + ' >'
 		),
-		'<button id = "update" class="btn btn-success btn-sm">Update</button>',
-		'<button id = "cancel" class="btn btn-danger btn-sm">Cancel</button>',
+		// '<button id = "update" class="btn btn-success btn-sm">Update</button>',
+		'<input type = "submit" name = "update" value = "Update" class="btn btn-success btn-sm">',
+		'<input type = "submit" name = "cancel" value = "Cancel" class="btn btn-danger btn-sm">'
 	)
 
 	$('#gpi_table_area').prepend(
@@ -87,9 +90,13 @@ function change_stream(stream_row){
 
 	$('#gpi_edit_form').submit(function (event) {
 		event.preventDefault();
-		console.log('SUBMITTED')
-		$(this).parent().fadeOut(300, function(){$(this).remove()});
-		// $(this).parent().remove();
+		
+		// Check which button was clicked and handle data if update was pressed
+		if( $(document.activeElement).attr('name') === 'update'){
+			console.log($(this).serializeArray());
+		// TODO: Make AJAX put request with the data - num, gpi, stream
+		};
+		$(this).parent().fadeOut( 300, function(){ $(this).remove() } );
 	});
 
 	
@@ -106,7 +113,6 @@ function change_stream(stream_row){
 $(document).ready(function() {
 	document.querySelector('#gpi_list').addEventListener('click', (e) => {
 		if(e.target.attributes.id.value === 'gpi_edit'){
-			console.log('perkele')
 			change_stream(e.target);
 		}
 		return 0;
