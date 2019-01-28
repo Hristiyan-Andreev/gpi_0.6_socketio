@@ -43,7 +43,7 @@ function render_streams(){
 			$('<td/>').attr('id', 'gpi_num').text(streams[i].num),
 			$('<td/>').attr('id', 'gpi_gpi').text(streams[i].gpi),
 			$('<td/>').attr('id', 'gpi_stream').text(streams[i].stream),
-			$('<td/>').html('<a href="#" class="btn btn-warning btn-sm edit">Edit</a>')
+			$('<td/>').html('<button id = "gpi_edit" class="btn btn-warning btn-sm edit-str-btn">Edit</button>')
 		);
 		$('#gpi_table').append(row);
 	}
@@ -58,21 +58,59 @@ function fetch_streams(){
 }
 
 function change_stream(stream_row){
-	console.log(stream_row.parentElement.parentElement.querySelector("#gpi_num").innerText);
+	// console.log(stream_row.parentElement.parentElement.querySelector("#gpi_num").innerText);
+
+	// Fetch all data for the current stream to be edited
 	let gpi_row = stream_row.parentElement.parentElement;
 	let gpi_num = gpi_row.querySelector("#gpi_num").innerText;
 	let gpi_gpi = gpi_row.querySelector("#gpi_gpi").innerText;
 	let gpi_stream = gpi_row.querySelector("#gpi_stream").innerText;
+	
+	// Generate a form for stream editing and append it before the streams table
+	let edit_stream_form = $('<form/>').attr({id: 'gpi_edit_form', action: ''
+	, class: "form-inline"})
+	.append(
+		'' + gpi_num + ' ',
+		$('<div/>').attr({class: 'form-group'}).append(
+			'<input type="text" class = "form-control" name="gpi_gpi" placeholder = GPI_' + gpi_gpi + ' >',
+		),
+		$('<div/>').attr({class: 'form-group'}).append(
+			'<input type="text" class = "form-control" name="gpi_stream" placeholder = StreamID_' + gpi_stream + ' >'
+		),
+		'<button id = "update" class="btn btn-success btn-sm">Update</button>',
+		'<button id = "cancel" class="btn btn-danger btn-sm">Cancel</button>',
+	)
 
-	let new_col_gpi = $('<td/>').attr('id', 'gpi_gpi').html('<input type="text" name="gpi_gpi" placeholder = ' +
-		gpi_gpi + ' >');
+	$('#gpi_table_area').prepend(
+		$('<div/>').attr({class: 'form-group row'}).append(edit_stream_form)
+	);
 
-	gpi_row.querySelector('#gpi_gpi').innerHTML='<input type="text" name="gpi_gpi" placeholder = ' +
-	gpi_gpi + ' >';
+	$('#gpi_edit_form').submit(function (event) {
+		event.preventDefault();
+		console.log('SUBMITTED')
+		$(this).parent().fadeOut(300, function(){$(this).remove()});
+		// $(this).parent().remove();
+	});
+
+	
+	return 0;
+	// gpi_row.querySelector('#gpi_gpi').innerHTML='<input type="text" name="gpi_gpi" placeholder = ' +
+	// gpi_gpi + ' >';
 }
+
+// $('#gpi_edit').click( function () {
+// 	console.log('Perkele');
+// 	console.log($(this));
+// });
 
 $(document).ready(function() {
 	document.querySelector('#gpi_list').addEventListener('click', (e) => {
-		change_stream(e.target);
+		if(e.target.attributes.id.value === 'gpi_edit'){
+			console.log('perkele')
+			change_stream(e.target);
+		}
+		return 0;
 	});
+	
+	
 });
