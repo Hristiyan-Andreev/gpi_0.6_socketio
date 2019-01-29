@@ -1,7 +1,7 @@
 import sys
 import time
 import RPi.GPIO as GPIO
-from flask import Flask, render_template, jsonify
+from flask import Flask, request, render_template, jsonify
 from flask_socketio import SocketIO, emit, join_room, leave_room, \
     close_room, rooms, disconnect
 from flask_assets import Bundle, Environment
@@ -92,8 +92,29 @@ def index():
 def get_gpis():
     inputs = []
     for gpi, input in gpi_stream_dict.items():
+        print(gpi_stream_dict[gpi])
         inputs.append(gpi_stream_dict[gpi].__dict__)
     return jsonify(inputs)
+
+@app.route('/gpi_change', methods = ['POST'])
+def gpi_change():
+    gpi_data = request.form
+    gpi_num = int(gpi_data['gpi_num'])
+    gpi_gpi = int(gpi_data['gpi_gpi'])
+    gpi_stream = gpi_data['gpi_stream']
+
+    print(gpi_num)
+
+    for gpi, input in gpi_stream_dict.items():
+        if gpi_stream_dict[gpi].num == gpi_num:
+            gpi_stream_dict[gpi].gpi = gpi_gpi
+            gpi_stream_dict[gpi].stream_id = gpi_stream
+            gpi_stream_dict[gpi_gpi] = gpi_stream_dict.pop(gpi)
+
+    for gpi, input in gpi_stream_dict.items():
+        print(gpi_stream_dict[gpi])
+
+    return 'OK'
 
 @socketio.on('connect', namespace='')
 def test_connect():

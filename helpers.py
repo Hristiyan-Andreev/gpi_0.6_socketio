@@ -44,7 +44,8 @@ class GpiStream:
         self.channel_locked = False
         
     def __str__(self):
-        return "GPI: {} str_id: {} in_cue: {}".format(self.gpi_input, self.stream_id, self.in_cue)
+        return "num: {} gpi: {} str_id: {} in_cue: {}" \
+        .format(self.num, self.gpi, self.stream_id, self.in_cue)
         
     def update_info(self, stream):
         self.in_cue = stream.in_cue

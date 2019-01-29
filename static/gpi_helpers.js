@@ -30,7 +30,13 @@ class GPIStreamList{
     }
     
     add_to_storage(){
-        localStorage.setItem('stream_list', JSON.stringify(this.gpi_stream_list));        
+        if (localStorage.getItem('stream_list') === null){
+            localStorage.setItem('stream_list', JSON.stringify(this.gpi_stream_list));
+        } else {
+            localStorage.removeItem('stream_list');
+            localStorage.setItem('stream_list', JSON.stringify(this.gpi_stream_list));
+        }
+
     }
 }
 
